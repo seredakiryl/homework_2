@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-
-import {db} from "../../../db/in-memory.db";
+import {Request, Response} from 'express';
+import {blogsRepository} from "../../repositories/blogs.repository";
 
 export function getBlogListHandler(req: Request, res: Response) {
-    res.send(db.blogs);
+    const blogs = blogsRepository.findAll()
+    res.send(blogs);
 }
