@@ -18,5 +18,5 @@ postsRouter
   .get('', getPostListHandler)
   .get('/:id', idValidation, getPostHandler)
   .post('', superAdminGuardMiddleware, postCreateInputValidation, inputValidationResultMiddleware, createPostHandler)
-  .put('/:id', superAdminGuardMiddleware, idValidation, postUpdateInputValidation, updatedPostHandler)
+  .put('/:id', superAdminGuardMiddleware, idValidation, postUpdateInputValidation, inputValidationResultMiddleware, updatedPostHandler)
   .delete('/:id', superAdminGuardMiddleware, idValidation, inputValidationResultMiddleware, deletePostHandler);
