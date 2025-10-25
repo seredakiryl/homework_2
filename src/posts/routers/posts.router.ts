@@ -17,6 +17,6 @@ export const postsRouter = Router({});
 postsRouter
   .get('', getPostListHandler)
   .get('/:id', idValidation, getPostHandler)
-  .post('/:id', superAdminGuardMiddleware, idValidation, postCreateInputValidation, inputValidationResultMiddleware, createPostHandler)
+  .post('', superAdminGuardMiddleware, postCreateInputValidation, inputValidationResultMiddleware, createPostHandler)
   .put('/:id', superAdminGuardMiddleware, idValidation, updatedPostHandler)
   .delete('/:id', superAdminGuardMiddleware, idValidation, postUpdateInputValidation, inputValidationResultMiddleware, deletePostHandler);

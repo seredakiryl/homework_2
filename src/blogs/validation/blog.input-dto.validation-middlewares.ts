@@ -22,7 +22,7 @@ const websiteUrlValidation = body('websiteUrl')
   .isLength({ min: 1, max: 100 })
   .withMessage('Length of websiteUrl is not correct')
   .matches(/^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/)
-  .withMessage('need valid pattern /^https:\\/\\/([a-zA-Z0-9_-]+\\.)+[a-zA-Z0-9_-]+(\\/[a-zA-Z0-9_-]+)*\\/?$/)');
+  .withMessage('need valid pattern');
 
 export const blogCreateInputValidation = [
   nameValidation,
