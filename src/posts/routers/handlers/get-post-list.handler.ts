@@ -1,8 +1,8 @@
-import {Request, Response} from "express";
-import {postsRepository} from "../../repositories/posts.repository";
+import { Request, Response } from 'express';
+import { postsRepository } from '../../repositories/posts.repository';
 
-export function getPostListHandler(req: Request, res: Response) {
-    const posts = postsRepository.findAll()
+export const getPostListHandler = async (req: Request, res: Response) => {
+  const posts = await postsRepository.findAll();
 
-    res.send(posts);
-}
+  res.send(posts);
+};

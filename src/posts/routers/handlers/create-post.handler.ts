@@ -4,13 +4,12 @@ import { postsRepository } from '../../repositories/posts.repository';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { blogsRepository } from '../../../blogs/repositories/blogs.repository';
 import { createErrorMessages } from '../../../core/utils/error.utils';
-import { db } from '../../../db/in-memory.db';
 
 export const createPostHandler =
-  (req: Request<{}, {}, PostInputDto>, res: Response) => {
+  async (req: Request<{}, {}, PostInputDto>, res: Response) => {
     const attributes = req.body;
     console.log(req.body);
-    const blog = blogsRepository.findById(attributes.blogId);
+    const blog = await blogsRepository.findById(attributes.blogId);
 
     if (!blog) {
       res.status(HttpStatus.NotFound)
@@ -19,7 +18,6 @@ export const createPostHandler =
     }
 
     const newPost = {
-      id: String(db.posts.length ? db.posts[db.posts.length - 1].id + 1 : 1),
       title: attributes.title,
       shortDescription: attributes.shortDescription,
       content: attributes.content,
@@ -27,6 +25,6 @@ export const createPostHandler =
       blogName: blog.name,
     };
 
-    postsRepository.create(newPost);
+    await postsRepository.create(newPost);
     res.status(HttpStatus.Created).send(newPost);
   };

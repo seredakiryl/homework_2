@@ -1,7 +1,7 @@
-import {Request, Response} from 'express';
-import {blogsRepository} from "../../repositories/blogs.repository";
+import { Request, Response } from 'express';
+import { blogsRepository } from '../../repositories/blogs.repository';
 
-export function getBlogListHandler(req: Request, res: Response) {
-    const blogs = blogsRepository.findAll()
-    res.send(blogs);
-}
+export const getBlogListHandler = async (req: Request, res: Response) => {
+  const blogs = await blogsRepository.findAll();
+  res.send(blogs);
+};

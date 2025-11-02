@@ -18,7 +18,7 @@ export const blogsRouter = Router({});
 blogsRouter
   .get('', getBlogListHandler)
   .get('/:id', idValidation, inputValidationResultMiddleware, getBlogHandler)
-  .post('', superAdminGuardMiddleware, blogCreateInputValidation, inputValidationResultMiddleware, createBlogHandler)
+  .post('', blogCreateInputValidation, inputValidationResultMiddleware, createBlogHandler)
   .put('/:id', superAdminGuardMiddleware, idValidation, blogUpdateInputValidation, inputValidationResultMiddleware, updatedBlogHandler)
   .delete('/:id', superAdminGuardMiddleware, idValidation, inputValidationResultMiddleware, deleteBlogHandler);
 

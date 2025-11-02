@@ -1,7 +1,5 @@
-
-export type Blog= {
-    id: string,
-    name: string,
-    description: string,
-    websiteUrl: string
+export type Blog = {
+  name: string,
+  description: string,
+  websiteUrl: string
 }
