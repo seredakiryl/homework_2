@@ -1,7 +1,7 @@
 export const SETTINGS = {
   PORT: process.env.PORT || 5003,
   MONGO_URL:
-    process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.9',
+    process.env.MONGO_URL || 'mongodb+srv://root:root@cluster0.cagnufl.mongodb.net/?appName=Cluster0',
   DB_NAME: process.env.DB_NAME || 'Cluster0',
 };
 
