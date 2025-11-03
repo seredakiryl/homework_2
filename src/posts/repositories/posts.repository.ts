@@ -18,7 +18,7 @@ export const postsRepository = {
     const insertResult = await postCollection.insertOne(newPost);
     return {
       ...newPost,
-      id: insertResult.insertedId.toString(),
+      id: new Date().toISOString(),
       createdAt: new Date(),
     };
   },

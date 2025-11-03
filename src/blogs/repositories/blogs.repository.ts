@@ -15,11 +15,12 @@ export const blogsRepository = {
   },
   async create(newBlog: Blog): Promise<BlogInputDto> {
     const insertResult = await blogCollection.insertOne(newBlog);
+    
     return {
       ...newBlog,
       id: insertResult.insertedId.toString(),
       createdAt: new Date(),
-      isMembership: true,
+      isMembership: false,
     };
   },
   async update(id: string, dto: BlogInputDto): Promise<void> {

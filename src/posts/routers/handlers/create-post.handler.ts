@@ -8,7 +8,7 @@ import { createErrorMessages } from '../../../core/utils/error.utils';
 export const createPostHandler =
   async (req: Request<{}, {}, PostInputDto>, res: Response) => {
     const attributes = req.body;
-    console.log(req.body);
+ 
     const blog = await blogsRepository.findById(attributes.blogId);
 
     if (!blog) {

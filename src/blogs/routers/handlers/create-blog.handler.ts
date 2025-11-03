@@ -11,8 +11,6 @@ export const createBlogHandler = async (req: Request<{}, {}, BlogInputDto>, res:
     name: attributes.name,
     description: attributes.description,
     websiteUrl: attributes.websiteUrl,
-    createdAt: new Date(),
-    isMembership: true,
   };
 
   await blogsRepository.create(newBlog);
