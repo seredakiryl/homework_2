@@ -5,5 +5,4 @@ export type PostInputDto = {
   content: string,
   blogId: string,
   createdAt: Date,
-
 }

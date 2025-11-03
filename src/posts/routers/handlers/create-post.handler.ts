@@ -4,11 +4,12 @@ import { postsRepository } from '../../repositories/posts.repository';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { blogsRepository } from '../../../blogs/repositories/blogs.repository';
 import { createErrorMessages } from '../../../core/utils/error.utils';
+import { mapToPostViewModel } from '../mappers/map-to-post-view-model';
 
 export const createPostHandler =
   async (req: Request<{}, {}, PostInputDto>, res: Response) => {
     const attributes = req.body;
- 
+
     const blog = await blogsRepository.findById(attributes.blogId);
 
     if (!blog) {
@@ -22,9 +23,10 @@ export const createPostHandler =
       shortDescription: attributes.shortDescription,
       content: attributes.content,
       blogId: attributes.blogId,
-      blogName: blog.name,
     };
 
-    await postsRepository.create(newPost);
-    res.status(HttpStatus.Created).send(newPost);
+    const createdPost = await postsRepository.create(newPost);
+    const blogViewModel = mapToPostViewModel(newPost);
+
+    res.status(HttpStatus.Created).send(blogViewModel);
   };

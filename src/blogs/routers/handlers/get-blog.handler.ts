@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { blogsRepository } from '../../repositories/blogs.repository';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/utils/error.utils';
+import { mapToBlogViewModel } from '../mappers/map-to-blog-view-model';
 
 
 export const getBlogHandler = async (req: Request, res: Response) => {
@@ -13,5 +14,6 @@ export const getBlogHandler = async (req: Request, res: Response) => {
     res.status(HttpStatus.NotFound).send(createErrorMessages([{ field: 'id', message: 'No blog found' }]));
     return;
   }
-  res.send(blog);
+  const blogViewModel = mapToBlogViewModel(blog);
+  res.send(blogViewModel);
 };
