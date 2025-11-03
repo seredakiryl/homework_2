@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { postsRepository } from '../../repositories/posts.repository';
 import { HttpStatus } from '../../../core/types/http-statuses';
 import { createErrorMessages } from '../../../core/utils/error.utils';
+import { mapToPostViewModel } from '../mappers/map-to-post-view-model';
 
 
 export const getPostHandler = async (req: Request, res: Response) => {
@@ -13,5 +14,7 @@ export const getPostHandler = async (req: Request, res: Response) => {
     res.status(HttpStatus.NotFound).send(createErrorMessages([{ field: 'id', message: 'No post found' }]));
     return;
   }
+
+  const postViewModel = mapToPostViewModel(post);
   res.send(post);
 };

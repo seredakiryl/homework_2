@@ -4,8 +4,12 @@ import { PostInputDto } from '../../dto/post.input-dto';
 
 export function mapToPostViewModel(post: WithId<Post>): PostInputDto {
   return {
-    ...post,
     id: post._id.toString(),
-    createdAt: new Date(),
+    title: post.title,
+    shortDescription: post.shortDescription,
+    content: post.content,
+    blogId: post.blogId,
+    blogName: post.blogName,
+    createdAt: post.createdAt,
   };
 }

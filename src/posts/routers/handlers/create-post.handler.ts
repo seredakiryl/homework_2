@@ -23,10 +23,12 @@ export const createPostHandler =
       shortDescription: attributes.shortDescription,
       content: attributes.content,
       blogId: attributes.blogId,
+      blogName: blog.name,
+      createdAt: new Date(),
     };
 
     const createdPost = await postsRepository.create(newPost);
-    const blogViewModel = mapToPostViewModel(newPost);
+    const blogViewModel = mapToPostViewModel(createdPost);
 
     res.status(HttpStatus.Created).send(blogViewModel);
   };
