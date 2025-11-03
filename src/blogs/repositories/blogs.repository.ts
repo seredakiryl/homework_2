@@ -13,14 +13,11 @@ export const blogsRepository = {
   async findById(id: string): Promise<WithId<Blog> | null> {
     return blogCollection.findOne({ _id: new ObjectId(id) });
   },
-  async create(newBlog: Blog): Promise<BlogInputDto> {
+  async create(newBlog: Blog): Promise<WithId<Blog>> {
     const insertResult = await blogCollection.insertOne(newBlog);
-
     return {
       ...newBlog,
-      id: new Date().toISOString(),
-      createdAt: new Date(),
-      isMembership: false,
+      _id: insertResult.insertedId,
     };
   },
   async update(id: string, dto: BlogInputDto): Promise<void> {
