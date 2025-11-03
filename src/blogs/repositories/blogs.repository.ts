@@ -13,9 +13,14 @@ export const blogsRepository = {
   async findById(id: string): Promise<WithId<Blog> | null> {
     return blogCollection.findOne({ _id: new ObjectId(id) });
   },
-  async create(newBlog: Blog): Promise<WithId<Blog>> {
+  async create(newBlog: Blog): Promise<BlogInputDto> {
     const insertResult = await blogCollection.insertOne(newBlog);
-    return { ...newBlog, _id: insertResult.insertedId };
+    return {
+      ...newBlog,
+      id: insertResult.insertedId.toString(),
+      createdAt: new Date(),
+      isMembership: true,
+    };
   },
   async update(id: string, dto: BlogInputDto): Promise<void> {
     const blog = this.findById(id);

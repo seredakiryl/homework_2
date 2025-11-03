@@ -1,6 +1,9 @@
 export type PostInputDto = {
-    title: string,
-    shortDescription: string,
-    content: string,
-    blogId: string,
+  id: string,
+  title: string,
+  shortDescription: string,
+  content: string,
+  blogId: string,
+  createdAt: Date,
+
 }
