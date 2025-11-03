@@ -8,7 +8,7 @@ export function mapToBlogListViewModel(blogs: WithId<Blog>[]): BlogInputDto[] {
     name: blog.name,
     description: blog.description,
     websiteUrl: blog.websiteUrl,
-    createdAt: new Date(),
-    isMembership: true,
+    createdAt: blog.createdAt,
+    isMembership: blog.isMembership,
   }));
 }
