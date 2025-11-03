@@ -16,5 +16,5 @@ export const getPostHandler = async (req: Request, res: Response) => {
   }
 
   const postViewModel = mapToPostViewModel(post);
-  res.send(post);
+  res.send(postViewModel);
 };
