@@ -14,12 +14,11 @@ export const postsRepository = {
   async findById(id: string): Promise<WithId<Post> | null> {
     return postCollection.findOne({ _id: new ObjectId(id) });
   },
-  async create(newPost: Post): Promise<PostInputDto> {
+  async create(newPost: Post): Promise<WithId<Post>> {
     const insertResult = await postCollection.insertOne(newPost);
     return {
       ...newPost,
-      id: new Date().toISOString(),
-      createdAt: new Date(),
+      _id: insertResult.insertedId,
     };
   },
 

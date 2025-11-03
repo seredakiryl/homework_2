@@ -4,9 +4,11 @@ import { Blog } from '../../types/blog';
 
 export function mapToBlogViewModel(blog: WithId<Blog>): BlogInputDto {
   return {
-    ...blog,
     id: blog._id.toString(),
+    name: blog.name,
+    description: blog.description,
+    websiteUrl: blog.websiteUrl,
     createdAt: new Date(),
-    isMembership: true,
+    isMembership: false,
   };
 }
