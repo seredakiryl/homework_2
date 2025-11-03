@@ -4,6 +4,8 @@ import { BLOGS_PATH, POSTS_PATH } from './core/paths/paths';
 import { blogsRouter } from './blogs/routers/blogs.router';
 import { postsRouter } from './posts/routers/posts.router';
 import { HttpStatus } from './core/types/http-statuses';
+import { blogsRepository } from './blogs/repositories/blogs.repository';
+import { postsRepository } from './posts/repositories/posts.repository';
 
 export const setupApp = (app: Express) => {
   app.use(express.json());
@@ -15,7 +17,9 @@ export const setupApp = (app: Express) => {
   app.use(BLOGS_PATH, blogsRouter);
   app.use(POSTS_PATH, postsRouter);
 
-  app.delete('/testing/all-data', (req: Request, res: Response) => {
+  app.delete('/testing/all-data', async (req: Request, res: Response) => {
+      await blogsRepository.deleteBlogCollection();
+      await postsRepository.deletePostCollection();
       res.status(HttpStatus.NoContent).send('All data is deleted');
     },
   );

@@ -1,9 +1,13 @@
 import { PostInputDto } from '../dto/post.input-dto';
 import { Post } from '../types/post';
 import { postCollection } from '../../db/mongo.db';
-import { ObjectId, WithId } from 'mongodb';
+import { DeleteResult, ObjectId, WithId } from 'mongodb';
 
 export const postsRepository = {
+
+  async deletePostCollection(): Promise<DeleteResult> {
+    return postCollection.deleteMany({});
+  },
   async findAll(): Promise<WithId<Post>[]> {
     return postCollection.find().toArray();
   },

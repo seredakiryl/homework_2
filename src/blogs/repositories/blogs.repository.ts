@@ -1,9 +1,12 @@
 import { Blog } from '../types/blog';
 import { BlogInputDto } from '../dto/blog.input-dto';
-import { ObjectId, WithId } from 'mongodb';
+import { DeleteResult, ObjectId, WithId } from 'mongodb';
 import { blogCollection } from '../../db/mongo.db';
 
 export const blogsRepository = {
+  async deleteBlogCollection(): Promise<DeleteResult> {
+    return blogCollection.deleteMany({});
+  },
   async findAll(): Promise<WithId<Blog>[]> {
     return blogCollection.find().toArray();
   },
