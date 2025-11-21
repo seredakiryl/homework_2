@@ -35,7 +35,7 @@ export const getPostsByQueryBlockIdHandler = async (
         items: postsViewModels,
       });
     } else {
-      res.status(HttpStatus.NotFound);
+      res.status(HttpStatus.NotFound).send({});
     }
   } catch (error) {
     errorsHandler(error, res);
