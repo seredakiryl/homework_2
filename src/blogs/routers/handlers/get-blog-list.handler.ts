@@ -13,7 +13,11 @@ export const getBlogListHandler = async (req: Request, res: Response) => {
       includeOptionals: true,
     });
 
+    console.log(sanitizedQuery);
+
     const queryInput = setDefaultSortAndPaginationIfNotExist(sanitizedQuery);
+
+    console.log(queryInput, '1');
 
     const { blogs, totalCount } = await blogsService.findMany(queryInput);
 

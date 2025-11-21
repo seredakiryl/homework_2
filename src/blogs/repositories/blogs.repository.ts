@@ -65,7 +65,7 @@ export const blogsRepository = {
     );
 
     if (updateResult.matchedCount < 1) {
-      throw new Error(`Blog with id ${id} not found`);
+      throw new RepositoryNotFoundError(`Blog with id ${id} not found`);
     }
 
     return;
@@ -76,7 +76,7 @@ export const blogsRepository = {
     });
 
     if (deleteResult.deletedCount < 1) {
-      throw new Error(`Blog with id ${id} not found`);
+      throw new RepositoryNotFoundError(`Blog with id ${id} not found`);
     }
 
     return;

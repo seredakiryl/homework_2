@@ -67,7 +67,7 @@ export const postsRepository = {
     );
 
     if (updateResult.matchedCount < 1) {
-      throw new Error(`Post with id ${id} not found`);
+      throw new RepositoryNotFoundError(`Post with id ${id} not found`);
     }
 
     return;
@@ -78,7 +78,7 @@ export const postsRepository = {
     });
 
     if (deleteResult.deletedCount < 1) {
-      throw new Error(`Post with id ${id} not found`);
+      throw new RepositoryNotFoundError(`Post with id ${id} not found`);
     }
 
     return;
