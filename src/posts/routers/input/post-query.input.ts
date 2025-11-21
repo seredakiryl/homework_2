@@ -1,4 +1,4 @@
-import { PaginationAndSorting } from '../../../../../homework_2/src/core/types/pagination-and-sorting';
 import { PostSortField } from './post-sort-field';
+import { PaginationAndSorting } from '../../../core/types/pagination-and-sorting';
 
 export type PostQueryInput = PaginationAndSorting<PostSortField>;

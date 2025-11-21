@@ -19,6 +19,7 @@ import { BlogSortField } from './input/blog-sort-field';
 import { createPostForBlogHandler } from './handlers/create-post-for-blog.handler';
 import { postCreateWithoutBlogIdValidation } from '../../posts/validation/post.input-dto.validation-middlewares';
 import { getPostsByQueryBlockIdHandler } from './handlers/get-posts-by-query-blockId';
+import { PostSortField } from '../../posts/routers/input/post-sort-field';
 
 export const blogsRouter = Router({});
 
@@ -29,7 +30,7 @@ blogsRouter
   .get(
     '/:blogId/posts',
     blockIdValidation,
-    inputValidationResultMiddleware,
+    paginationAndSortingValidation(PostSortField),
     getPostsByQueryBlockIdHandler,
   )
 

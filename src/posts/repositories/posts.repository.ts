@@ -11,7 +11,7 @@ export const postsRepository = {
   },
   async findMany(
     queryDto: PostQueryInput,
-    blockId?: string,
+    blogId?: string,
   ): Promise<{ posts: WithId<Post>[]; totalCount: number }> {
     const { pageNumber, pageSize, sortBy, sortDirection } = queryDto;
 
@@ -19,8 +19,8 @@ export const postsRepository = {
 
     const filter: any = {};
 
-    if (blockId) {
-      filter.blogId = blockId;
+    if (blogId) {
+      filter.blogId = blogId;
     }
 
     const posts = await postCollection
