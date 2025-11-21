@@ -20,7 +20,7 @@ export const postsRepository = {
     const filter: any = {};
 
     if (blockId) {
-      filter._id = new ObjectId(blockId);
+      filter.id = new ObjectId(blockId);
     }
 
     const posts = await postCollection
@@ -30,7 +30,11 @@ export const postsRepository = {
       .limit(pageSize)
       .toArray();
 
-    const totalCount = await postCollection.countDocuments({});
+    if (posts.length === 0) {
+      throw new RepositoryNotFoundError('Posts not found');
+    }
+
+    const totalCount = await postCollection.countDocuments(filter);
 
     return { posts, totalCount };
   },
