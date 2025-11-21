@@ -7,3 +7,11 @@ export const idValidation = param('id')
   .withMessage('ID must be a string')
   .isMongoId()
   .withMessage('Неверный формат ObjectId');
+
+export const blockIdValidation = param('blockId ')
+  .exists()
+  .withMessage('blockId is required')
+  .isString()
+  .withMessage('blockId must be a string')
+  .isMongoId()
+  .withMessage('Неверный формат ObjectId');

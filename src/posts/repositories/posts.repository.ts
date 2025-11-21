@@ -2,18 +2,41 @@ import { PostInputDto } from '../dto/post.input-dto';
 import { Post } from '../types/post';
 import { postCollection } from '../../db/mongo.db';
 import { DeleteResult, ObjectId, WithId } from 'mongodb';
+import { RepositoryNotFoundError } from '../../core/utils/repository-not-found.error';
+import { PostQueryInput } from '../routers/input/post-query.input';
 
 export const postsRepository = {
-
   async deletePostCollection(): Promise<DeleteResult> {
     return postCollection.deleteMany({});
   },
-  async findAll(): Promise<WithId<Post>[]> {
-    return postCollection.find().toArray();
+  async findMany(
+    queryDto: PostQueryInput,
+  ): Promise<{ posts: WithId<Post>[]; totalCount: number }> {
+    const { pageNumber, pageSize, sortBy, sortDirection } = queryDto;
+
+    const skip = (pageNumber - 1) * pageSize;
+
+    const posts = await postCollection
+      .find({})
+      .sort({ [sortBy]: sortDirection })
+      .skip(skip)
+      .limit(pageSize)
+      .toArray();
+
+    const totalCount = await postCollection.countDocuments({});
+
+    return { posts, totalCount };
   },
-  async findById(id: string): Promise<WithId<Post> | null> {
-    return postCollection.findOne({ _id: new ObjectId(id) });
+
+  async findByIdOrFail(id: string): Promise<WithId<Post>> {
+    const res = await postCollection.findOne({ _id: new ObjectId(id) });
+
+    if (!res) {
+      throw new RepositoryNotFoundError('Post not found');
+    }
+    return res;
   },
+
   async create(newPost: Post): Promise<WithId<Post>> {
     const insertResult = await postCollection.insertOne(newPost);
     return {
@@ -43,17 +66,14 @@ export const postsRepository = {
     return;
   },
   async delete(id: string): Promise<void> {
-
     const deleteResult = await postCollection.deleteOne({
       _id: new ObjectId(id),
     });
-
 
     if (deleteResult.deletedCount < 1) {
       throw new Error(`Post with id ${id} not found`);
     }
 
     return;
-
   },
 };

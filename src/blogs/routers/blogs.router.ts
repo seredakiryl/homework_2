@@ -4,21 +4,55 @@ import { getBlogHandler } from './handlers/get-blog.handler';
 import { updatedBlogHandler } from './handlers/update-blog.handler';
 import { deleteBlogHandler } from './handlers/delete-blog.handler';
 import { createBlogHandler } from './handlers/create-blog.handler';
-import { idValidation } from '../../core/middlewares/validation/params-id.validation-middleware';
 import {
-    blogCreateInputValidation,
-    blogUpdateInputValidation,
+  blockIdValidation,
+  idValidation,
+} from '../../core/middlewares/validation/params-id.validation-middleware';
+import {
+  blogCreateInputValidation,
+  blogUpdateInputValidation,
 } from '../validation/blog.input-dto.validation-middlewares';
 import { inputValidationResultMiddleware } from '../../core/middlewares/validation/input-validtion-result.middleware';
 import { superAdminGuardMiddleware } from '../../auth/middlewares/super-admin.guard-middleware';
+import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting.validation-middleware';
+import { BlogSortField } from './input/blog-sort-field';
+import { createPostForBlogHandler } from './handlers/create-post-for-blog.handler';
+import { postCreateWithoutBlogIdValidation } from '../../posts/validation/post.input-dto.validation-middlewares';
 
 export const blogsRouter = Router({});
 
-
 blogsRouter
-  .get('', getBlogListHandler)
+  .get('', paginationAndSortingValidation(BlogSortField), getBlogListHandler)
   .get('/:id', idValidation, inputValidationResultMiddleware, getBlogHandler)
-  .post('', superAdminGuardMiddleware, blogCreateInputValidation, inputValidationResultMiddleware, createBlogHandler)
-  .put('/:id', superAdminGuardMiddleware, idValidation, blogUpdateInputValidation, inputValidationResultMiddleware, updatedBlogHandler)
-  .delete('/:id', superAdminGuardMiddleware, idValidation, inputValidationResultMiddleware, deleteBlogHandler);
 
+  .post(
+    '',
+    superAdminGuardMiddleware,
+    blogCreateInputValidation,
+    inputValidationResultMiddleware,
+    createBlogHandler,
+  )
+
+  .post(
+    '/:blogId/posts',
+    blockIdValidation,
+    superAdminGuardMiddleware,
+    postCreateWithoutBlogIdValidation,
+    createPostForBlogHandler,
+  )
+
+  .put(
+    '/:id',
+    superAdminGuardMiddleware,
+    idValidation,
+    blogUpdateInputValidation,
+    inputValidationResultMiddleware,
+    updatedBlogHandler,
+  )
+  .delete(
+    '/:id',
+    superAdminGuardMiddleware,
+    idValidation,
+    inputValidationResultMiddleware,
+    deleteBlogHandler,
+  );

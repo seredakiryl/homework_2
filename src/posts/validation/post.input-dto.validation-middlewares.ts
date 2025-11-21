@@ -7,7 +7,6 @@ const titleValidation = body('title')
   .isLength({ min: 1, max: 30 })
   .withMessage('Length of title is not correct');
 
-
 const shortDescriptionValidation = body('shortDescription')
   .isString()
   .withMessage('shortDescription should be string')
@@ -29,7 +28,22 @@ const blogIdValidation = body('blogId')
   .isLength({ min: 1 })
   .withMessage('Length of blogId is not correct');
 
+export const postCreateInputValidation = [
+  titleValidation,
+  shortDescriptionValidation,
+  contentValidation,
+  blogIdValidation,
+];
 
-export const postCreateInputValidation = [titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation];
+export const postCreateWithoutBlogIdValidation = [
+  titleValidation,
+  shortDescriptionValidation,
+  contentValidation,
+];
 
-export const postUpdateInputValidation = [titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation];
+export const postUpdateInputValidation = [
+  titleValidation,
+  shortDescriptionValidation,
+  contentValidation,
+  blogIdValidation,
+];

@@ -18,10 +18,9 @@ export const setupApp = (app: Express) => {
   app.use(POSTS_PATH, postsRouter);
 
   app.delete('/testing/all-data', async (req: Request, res: Response) => {
-      await blogsRepository.deleteBlogCollection();
-      await postsRepository.deletePostCollection();
-      res.status(HttpStatus.NoContent).send('All data is deleted');
-    },
-  );
+    await blogsRepository.deleteBlogCollection();
+    await postsRepository.deletePostCollection();
+    res.status(HttpStatus.NoContent).send('All data is deleted');
+  });
   return app;
 };

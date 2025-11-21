@@ -2,16 +2,46 @@ import { Blog } from '../types/blog';
 import { BlogInputDto } from '../dto/blog.input-dto';
 import { DeleteResult, ObjectId, WithId } from 'mongodb';
 import { blogCollection } from '../../db/mongo.db';
+import { BlogQueryInput } from '../routers/input/blog-query.input';
+import { RepositoryNotFoundError } from '../../core/utils/repository-not-found.error';
 
 export const blogsRepository = {
   async deleteBlogCollection(): Promise<DeleteResult> {
     return blogCollection.deleteMany({});
   },
-  async findAll(): Promise<WithId<Blog>[]> {
-    return blogCollection.find().toArray();
+  async findMany(
+    queryDto: BlogQueryInput,
+  ): Promise<{ blogs: WithId<Blog>[]; totalCount: number }> {
+    const { pageNumber, pageSize, sortBy, sortDirection, searchNameTerm } =
+      queryDto;
+
+    const skip = (pageNumber - 1) * pageSize;
+    const filter: any = {};
+
+    if (searchNameTerm) {
+      filter.name = { $regex: searchNameTerm, $options: 'i' };
+    }
+
+    const blogs = await blogCollection
+      .find(filter)
+      .sort({ [sortBy]: sortDirection })
+      .skip(skip)
+      .limit(pageSize)
+      .toArray();
+
+    const totalCount = await blogCollection.countDocuments(filter);
+
+    return { blogs, totalCount };
   },
-  async findById(id: string): Promise<WithId<Blog> | null> {
-    return blogCollection.findOne({ _id: new ObjectId(id) });
+
+  async findByIdOrFail(id: string): Promise<WithId<Blog>> {
+    const res = await blogCollection.findOne({ _id: new ObjectId(id) });
+
+    if (!res) {
+      throw new RepositoryNotFoundError('Blog not found');
+    }
+
+    return res;
   },
   async create(newBlog: Blog): Promise<WithId<Blog>> {
     const insertResult = await blogCollection.insertOne(newBlog);
@@ -21,8 +51,6 @@ export const blogsRepository = {
     };
   },
   async update(id: string, dto: BlogInputDto): Promise<void> {
-    const blog = this.findById(id);
-
     const updateResult = await blogCollection.updateOne(
       {
         _id: new ObjectId(id),
@@ -52,6 +80,5 @@ export const blogsRepository = {
     }
 
     return;
-
   },
 };

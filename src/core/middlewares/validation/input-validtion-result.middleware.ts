@@ -1,4 +1,8 @@
-import { FieldValidationError, ValidationError, validationResult } from 'express-validator';
+import {
+  FieldValidationError,
+  ValidationError,
+  validationResult,
+} from 'express-validator';
 import { NextFunction, Request, Response } from 'express';
 import { HttpStatus } from '../../types/http-statuses';
 import { ValidationErrorDto } from '../../types/validationError.dto';
