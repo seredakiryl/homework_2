@@ -43,7 +43,6 @@ blogsRouter
 
   .post(
     '/:blogId/posts',
-    blockIdValidation,
     superAdminGuardMiddleware,
     postCreateWithoutBlogIdValidation,
     inputValidationResultMiddleware,

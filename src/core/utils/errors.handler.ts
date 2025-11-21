@@ -7,7 +7,6 @@ export function errorsHandler(error: any, res: Response): void {
   if (error instanceof RepositoryNotFoundError) {
     const httpStatus = HttpStatus.NotFound;
 
-    // @ts-ignore
     res.status(httpStatus).send(
       createErrorMessages([
         {
