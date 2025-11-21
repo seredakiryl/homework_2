@@ -8,7 +8,7 @@ export const idValidation = param('id')
   .isMongoId()
   .withMessage('Неверный формат ObjectId');
 
-export const blockIdValidation = param('blockId ')
+export const blockIdValidation = param('blogId')
   .exists()
   .withMessage('blockId is required')
   .isString()
