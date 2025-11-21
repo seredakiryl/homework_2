@@ -20,7 +20,7 @@ export const postsRepository = {
     const filter: any = {};
 
     if (blockId) {
-      filter.id = blockId;
+      filter.blockId = blockId;
     }
 
     const posts = await postCollection
