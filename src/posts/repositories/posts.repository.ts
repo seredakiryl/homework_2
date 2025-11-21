@@ -11,13 +11,20 @@ export const postsRepository = {
   },
   async findMany(
     queryDto: PostQueryInput,
+    blockId?: string,
   ): Promise<{ posts: WithId<Post>[]; totalCount: number }> {
     const { pageNumber, pageSize, sortBy, sortDirection } = queryDto;
 
     const skip = (pageNumber - 1) * pageSize;
 
+    const filter: any = {};
+
+    if (blockId) {
+      filter._id = new ObjectId(blockId);
+    }
+
     const posts = await postCollection
-      .find({})
+      .find(filter)
       .sort({ [sortBy]: sortDirection })
       .skip(skip)
       .limit(pageSize)

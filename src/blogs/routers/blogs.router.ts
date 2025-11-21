@@ -18,12 +18,15 @@ import { paginationAndSortingValidation } from '../../core/middlewares/validatio
 import { BlogSortField } from './input/blog-sort-field';
 import { createPostForBlogHandler } from './handlers/create-post-for-blog.handler';
 import { postCreateWithoutBlogIdValidation } from '../../posts/validation/post.input-dto.validation-middlewares';
+import { getPostsByQueryBlockIdHandler } from './handlers/get-posts-by-query-blockId';
 
 export const blogsRouter = Router({});
 
 blogsRouter
   .get('', paginationAndSortingValidation(BlogSortField), getBlogListHandler)
   .get('/:id', idValidation, inputValidationResultMiddleware, getBlogHandler)
+
+  .get('/:blogId/posts', blockIdValidation, getPostsByQueryBlockIdHandler)
 
   .post(
     '',

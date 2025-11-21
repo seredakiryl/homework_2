@@ -10,9 +10,11 @@ import { PostQueryInput } from '../routers/input/post-query.input';
 export const postsService = {
   async findMany(
     queryDto: PostQueryInput,
+    blogId?: string,
   ): Promise<{ posts: WithId<Post>[]; totalCount: number }> {
-    return postsRepository.findMany(queryDto);
+    return postsRepository.findMany(queryDto, blogId);
   },
+
   async findByIdOrFail(id: string): Promise<WithId<Post>> {
     return postsRepository.findByIdOrFail(id);
   },
