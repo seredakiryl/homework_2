@@ -11,11 +11,13 @@ import {
 } from '../validation/post.input-dto.validation-middlewares';
 import { inputValidationResultMiddleware } from '../../core/middlewares/validation/input-validtion-result.middleware';
 import { superAdminGuardMiddleware } from '../../auth/middlewares/super-admin.guard-middleware';
+import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting.validation-middleware';
+import { PostSortField } from './input/post-sort-field';
 
 export const postsRouter = Router({});
 
 postsRouter
-  .get('', getPostListHandler)
+  .get('', paginationAndSortingValidation(PostSortField), getPostListHandler)
   .get('/:id', idValidation, getPostHandler)
   .post(
     '',
