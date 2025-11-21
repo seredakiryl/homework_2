@@ -26,7 +26,12 @@ blogsRouter
   .get('', paginationAndSortingValidation(BlogSortField), getBlogListHandler)
   .get('/:id', idValidation, inputValidationResultMiddleware, getBlogHandler)
 
-  .get('/:blogId/posts', blockIdValidation, getPostsByQueryBlockIdHandler)
+  .get(
+    '/:blogId/posts',
+    blockIdValidation,
+    inputValidationResultMiddleware,
+    getPostsByQueryBlockIdHandler,
+  )
 
   .post(
     '',
@@ -41,6 +46,7 @@ blogsRouter
     blockIdValidation,
     superAdminGuardMiddleware,
     postCreateWithoutBlogIdValidation,
+    inputValidationResultMiddleware,
     createPostForBlogHandler,
   )
 
