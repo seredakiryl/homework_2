@@ -5,6 +5,7 @@ import { errorsHandler } from '../../../core/utils/errors.handler';
 import { PostQueryInput } from '../../../posts/routers/input/post-query.input';
 import { postsService } from '../../../posts/application/posts.service';
 import { mapToPostListViewModel } from '../../../posts/routers/mappers/map-to-post-list-view-model';
+import { HttpStatus } from '../../../core/types/http-statuses';
 
 export const getPostsByQueryBlockIdHandler = async (
   req: Request<{ blogId: string }, {}, {}>,
@@ -25,13 +26,17 @@ export const getPostsByQueryBlockIdHandler = async (
 
     const postsViewModels = mapToPostListViewModel(posts);
 
-    res.send({
-      pagesCount: Math.ceil(totalCount / queryInput.pageSize),
-      page: queryInput.pageNumber,
-      pageSize: queryInput.pageSize,
-      totalCount,
-      items: postsViewModels,
-    });
+    if (postsViewModels.length > 0) {
+      res.send({
+        pagesCount: Math.ceil(totalCount / queryInput.pageSize),
+        page: queryInput.pageNumber,
+        pageSize: queryInput.pageSize,
+        totalCount,
+        items: postsViewModels,
+      });
+    } else {
+      res.status(HttpStatus.NotFound);
+    }
   } catch (error) {
     errorsHandler(error, res);
   }
